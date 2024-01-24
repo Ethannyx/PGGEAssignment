@@ -43,7 +43,7 @@ public class Player_Multiplayer : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Start()    
     {
         //Get the photonview component for multiplayer
         mPhotonView = GetComponent<PhotonView>();
