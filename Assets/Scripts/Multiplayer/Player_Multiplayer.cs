@@ -10,7 +10,7 @@ public class Player_Multiplayer : MonoBehaviour
 
     [HideInInspector]
     public FSM mFsm = new FSM();
-    public Animator mAnimator;
+    public Animator mAnimator;  
     public PlayerMovement mPlayerMovement;
 
     // This is the maximum number of bullets that the player 
