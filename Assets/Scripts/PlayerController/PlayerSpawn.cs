@@ -115,6 +115,7 @@ public class PlayerMovement : MonoBehaviour
         ApplyGravity();
     }
 
+    //Jumping parameteres for animation and sets jump hright to simulate jumping
     void Jump()
     {
         mAnimator.SetTrigger("Jump");
@@ -123,11 +124,14 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 HalfHeight;
     private Vector3 tempHeight;
+
+    //Crouching parameteres for animation and sets height to half to simulate crouching
     void Crouch()
     {
         mAnimator.SetBool("Crouch", crouch);
         if (crouch)
         {
+            //Make sure camera follows along when crouched
             tempHeight = CameraConstants.CameraPositionOffset;
             HalfHeight = tempHeight;
             HalfHeight.y *= 0.5f;
@@ -139,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //Makes sure player does not float in the air
     void ApplyGravity()
     {
         // apply gravity.

@@ -192,11 +192,14 @@ public class PlayerState_RELOAD : PlayerState
     {
         if (mPlayer.mAmunitionCount > mPlayer.mMaxAmunitionBeforeReload)
         {
+            //Reloads the magazine by the initial bullets in magazine
             mPlayer.mBulletsInMagazine += mPlayer.mMaxAmunitionBeforeReload;
+            //Deducts the total ammunition count by the amount of bullets relodd
             mPlayer.mAmunitionCount -= mPlayer.mBulletsInMagazine;
         }
         else if (mPlayer.mAmunitionCount > 0 && mPlayer.mAmunitionCount < mPlayer.mMaxAmunitionBeforeReload)
         {
+            //Simulates the last 30 bullets of ammunition and changes ammunition to 0
             mPlayer.mBulletsInMagazine += mPlayer.mAmunitionCount;
             mPlayer.mAmunitionCount = 0;
         }

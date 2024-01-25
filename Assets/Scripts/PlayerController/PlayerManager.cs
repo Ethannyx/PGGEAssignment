@@ -1,10 +1,10 @@
-﻿using Photon.Pun;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
-public class PlayerManager : MonoBehaviourPunCallbacks
+public class PlayerSpawn : MonoBehaviourPunCallbacks
 {
     public string mPlayerPrefabName;
     public PlayerSpawnPoints mSpawnPoints;
@@ -16,29 +16,23 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        Transform randomSpawnTransform = mSpawnPoints.GetSpawnPoint();
-        mPlayerGameObject = PhotonNetwork.Instantiate(mPlayerPrefabName,
-            randomSpawnTransform.position,
-            randomSpawnTransform.rotation,
-            0);
+        SpawnPlayer();
 
         mThirdPersonCamera = Camera.main.gameObject.AddComponent<ThirdPersonCamera>();
-
         mThirdPersonCamera.mPlayer = mPlayerGameObject.transform;
         mThirdPersonCamera.mDamping = 20.0f;
         mThirdPersonCamera.mCameraType = CameraType.Follow_Track_Pos_Rot;
     }
 
-    public void LeaveRoom()
+    public void SpawnPlayer()
     {
-        Debug.LogFormat("LeaveRoom");
-        PhotonNetwork.LeaveRoom();
-    }
-
-    public override void OnLeftRoom()
-    {
-        //Debug.LogFormat("OnLeftRoom()");
-        SceneManager.LoadScene("Menu");
+        //Gets a random set spawn point
+        Transform randomSpawnTransform = mSpawnPoints.GetSpawnPoint();
+        //Initiates a player at the spawnpoint with the relevant details
+        mPlayerGameObject = PhotonNetwork.Instantiate(mPlayerPrefabName,
+            randomSpawnTransform.position,
+            randomSpawnTransform.rotation,
+            0);
     }
 
 }

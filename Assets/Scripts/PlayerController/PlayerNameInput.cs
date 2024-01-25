@@ -17,11 +17,13 @@ public class PlayerNameInput : MonoBehaviour
         SetDefaultPlayerName();
     }
 
+    //Gets the component for the player to input name
     private void InitializeInputField()
     {
         playerNameInputField = GetComponent<InputField>();
     }
 
+    //Register the input given by the player using playerPrefs
     private void SetDefaultPlayerName()
     {
         if (PlayerPrefs.HasKey(playerNamePrefKey))

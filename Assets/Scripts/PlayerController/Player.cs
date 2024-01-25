@@ -40,7 +40,6 @@ public class Player : MonoBehaviour
     bool[] mFiring = new bool[3];
 
 
-    // Start is called before the first frame update
     void Start()
     {
         InitializeFSM();
@@ -53,13 +52,14 @@ public class Player : MonoBehaviour
         UpdateAttackButtons();
     }
 
+    //Calculating the direction of bullet, position of crosshair and the interactable objects
     public void Aim()
     {
         Vector3 dir = -mGunTransform.right.normalized;
         Vector3 gunpoint = CalculateGunpointPosition(dir);
         LayerMask objectsMask = ~mPlayerMask;
 
-        // Do the Raycast
+        //Raycast of gun direction
         RaycastHit hit;
         bool hitObject = Physics.Raycast(gunpoint, dir, out hit, 50.0f, objectsMask);
 
@@ -73,11 +73,14 @@ public class Player : MonoBehaviour
         }
 
     }
+
+    //Calculate the direction of which the gun is facing
     private Vector3 CalculateGunpointPosition(Vector3 dir)
     {
         return mGunTransform.transform.position + dir * 1.2f - mGunTransform.forward * 0.1f;
     }
 
+    //Makes sure the crosshair stays in the middle od the screen
     private void UpdateCrosshair(RaycastHit hit)
     {
         Debug.DrawLine(gunpoint, gunpoint + (dir * hit.distance), Color.red, 0.0f);
@@ -91,6 +94,7 @@ public class Player : MonoBehaviour
         mCrossHair.gameObject.SetActive(true);
     }
 
+    //Handles the movement of the player
     public void Move()
     {
         mPlayerMovement.HandleInputs();
@@ -118,16 +122,16 @@ public class Player : MonoBehaviour
     public void FireBullet()
     {
         if (mBulletPrefab == null) return;
-
+        //Calcuate the direction of which the bullet will move and the spawning point of the bullet
         Vector3 dir = -mGunTransform.right.normalized;
         Vector3 firePoint = mGunTransform.transform.position + dir *
             1.2f - mGunTransform.forward * 0.1f;
         GameObject bullet = Instantiate(mBulletPrefab, firePoint,
             Quaternion.LookRotation(dir) * Quaternion.AngleAxis(90.0f, Vector3.right));
-
+        //Apply the force to the bullet to make it move at the shooting direction
         bullet.GetComponent<Rigidbody>().AddForce(dir * mBulletSpeed, ForceMode.Impulse);
     }
-
+    //Controls firing rate (make sure bullets dont spawn too many at a time)
     IEnumerator Coroutine_Firing(int id)
     {
         mFiring[id] = true;
@@ -136,7 +140,7 @@ public class Player : MonoBehaviour
         mFiring[id] = false;
         mBulletsInMagazine -= 1;
     }
-
+    //Initialize the FSMs to add the states of our player
     private void InitializeFSM()
     {
         mFsm.Add(new PlayerState_MOVEMENT(this));
@@ -145,6 +149,7 @@ public class Player : MonoBehaviour
         mFsm.SetCurrentState((int)PlayerStateType.MOVEMENT);
     }
 
+    //Updates the fire mode based on the input
     private void UpdateAttackButtons()
     {
         UpdateFireMode("Fire1", 0);

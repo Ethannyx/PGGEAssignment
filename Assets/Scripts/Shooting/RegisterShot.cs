@@ -4,18 +4,7 @@ using UnityEngine;
 
 public class RegisterShot : MonoBehaviour, IDamageable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    //Simple debug to show a shot registered
     public void TakeDamage()
     {
         Debug.Log("Box: I am hit by a bullet!");

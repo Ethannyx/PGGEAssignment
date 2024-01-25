@@ -132,7 +132,13 @@ public class PlayerState_Multiplayer_ATTACK : PlayerState_Multiplayer
         base.Update();
         //Debug information about ammunition count and bullets in the magazine
         Debug.Log("Ammo count: " + mPlayer.mAmunitionCount + ", In Magazine: " + mPlayer.mBulletsInMagazine);
+        ChangeState();
+        CheckForFire();
+    }
 
+    //Changes the state of the player
+    public void ChangeState()
+    {
         //Transitions to reload state if the current magazine bullets are 0 but there is still ammunition
         if (mPlayer.mBulletsInMagazine == 0 && mPlayer.mAmunitionCount > 0)
         {
@@ -147,7 +153,11 @@ public class PlayerState_Multiplayer_ATTACK : PlayerState_Multiplayer
             mPlayer.NoAmmo();
             return;
         }
+    }
 
+    //Checks if the player fires the bullet
+    public void CheckForFire()
+    {
         //Fires if an attack button is pressed
         if (mPlayer.mAttackButtons[mAttackID])
         {
@@ -161,10 +171,10 @@ public class PlayerState_Multiplayer_ATTACK : PlayerState_Multiplayer
             mPlayer.mAnimator.SetBool(mAttackAnimName, false);
             mPlayer.mFsm.SetCurrentState((int)PlayerStateType.MOVEMENT);
         }
-
     }
-
 }
+
+
 
 // State representing the player's reload state
 public class PlayerState_Multiplayer_RELOAD : PlayerState_Multiplayer
